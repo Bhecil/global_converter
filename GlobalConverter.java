@@ -1,3 +1,4 @@
+import java.util.Arrays;
 
 public class GlobalConverter {
 
@@ -26,6 +27,12 @@ public class GlobalConverter {
         else {
             System.out.println("Valid String.");
         }
+
+        if (IsBaseValid(conversionBase) == false || IsStringValid(stringToConvert) == false) {
+            return;
+        }
+
+        System.out.println("ASCII: " + Arrays.toString(ToASCII(stringToConvert)));
     }
 
     private static boolean IsStringValid(String stringToConvert) {
@@ -34,5 +41,15 @@ public class GlobalConverter {
 
     private static boolean IsBaseValid(String conversionBase) {
         return (conversionBase != null) && conversionBase.matches("^-[hobt]$");
+    }
+
+    private static int[] ToASCII(String stringToConvert) {
+        var asciiString = new int[stringToConvert.length()];
+
+        for (int index = 0; index < stringToConvert.length(); index++) {
+            asciiString[index] = (int)stringToConvert.charAt(index);            
+        }
+
+        return asciiString;
     }
 }
