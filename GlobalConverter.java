@@ -33,6 +33,8 @@ public class GlobalConverter {
         }
 
         System.out.println("ASCII: " + Arrays.toString(ToASCII(stringToConvert)));
+
+        System.out.println("Base " + conversionBase + ": " + ToBase(conversionBase, ToASCII(stringToConvert)));
     }
 
     private static boolean IsStringValid(String stringToConvert) {
@@ -40,7 +42,7 @@ public class GlobalConverter {
     }
 
     private static boolean IsBaseValid(String conversionBase) {
-        return (conversionBase != null) && conversionBase.matches("^-[hobt]$");
+        return (conversionBase != null) && conversionBase.matches("^-[hdobt]$");
     }
 
     private static int[] ToASCII(String stringToConvert) {
@@ -51,5 +53,42 @@ public class GlobalConverter {
         }
 
         return asciiString;
+    }
+
+    private static String ToBase(String conversionBase, int[] asciiString) {
+        var convertedString = "";
+        var divisor = 1;
+
+        //convert base text to int
+        switch (conversionBase) {
+            case "-h" -> divisor = 16;
+            case "-d" -> divisor = 10;
+            case "-o" -> divisor = 8;
+            case "-b" -> divisor = 2;
+        }
+
+        //convert each digit into the given base
+        for (int index = 0; index < asciiString.length; index++) {
+            var convertedDigit = "";
+
+            int quotient;
+            int dividend = asciiString[index];
+            int remainder;
+
+            //successive division until quotient is 0
+            do { 
+                quotient = dividend / divisor;
+                remainder = dividend % divisor;
+
+                convertedDigit += remainder;
+                dividend = quotient;
+                
+            } while (quotient != 0);
+
+            //add the (reversed) digit to the converted string
+            convertedString += new StringBuilder(convertedDigit).reverse().toString() +" ";
+        }
+
+        return convertedString;
     }
 }
