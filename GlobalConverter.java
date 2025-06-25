@@ -80,7 +80,20 @@ public class GlobalConverter {
                 quotient = dividend / divisor;
                 remainder = dividend % divisor;
 
-                convertedDigit += remainder;
+                if (divisor == 16 && remainder > 9) {
+                    switch (remainder) {
+                        case 10 -> convertedDigit += "A";
+                        case 11 -> convertedDigit += "B";
+                        case 12 -> convertedDigit += "C";
+                        case 13 -> convertedDigit += "D";
+                        case 14 -> convertedDigit += "E";
+                        case 15 -> convertedDigit += "F";
+                    }
+                }
+                else {
+                    convertedDigit += remainder;
+                }
+
                 dividend = quotient;
                 
             } while (quotient != 0);
