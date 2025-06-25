@@ -1,4 +1,4 @@
-import java.util.Arrays;
+import java.util.Scanner;
 
 public class GlobalConverter {
 
@@ -11,30 +11,32 @@ public class GlobalConverter {
             return;    
         }
 
-        stringToConvert = args[1];
         conversionBase = args[0];
 
-        if (IsBaseValid(conversionBase) == false) {
-            System.out.println("Invalid Base.");
+        Scanner input = new Scanner(System.in);
+
+        while (IsBaseValid(conversionBase) == false){
+            System.out.println("Please enter a valid base:\n-h for hexadecimal\n-d for decimal\n-o for octal\n-b for binary\n-t for text");
+            conversionBase = input.nextLine();
         }
+
+        stringToConvert = args[1];
+
+        while (IsStringValid(stringToConvert) == false) {
+            System.out.println("Please enter a valid string.");
+            stringToConvert = input.nextLine();
+        }
+
+        input.close();
+
+        if (conversionBase.equals("-t")) {
+            System.out.println("Conversion to text is not yet supported...");
+        }
+
         else {
-            System.out.println("Valid Base.");
+            System.out.println(ToBase(conversionBase, ToASCII(stringToConvert)));
         }
 
-        if (IsStringValid(stringToConvert) == false) {
-            System.out.println("Invalid String.");
-        }
-        else {
-            System.out.println("Valid String.");
-        }
-
-        if (IsBaseValid(conversionBase) == false || IsStringValid(stringToConvert) == false) {
-            return;
-        }
-
-        System.out.println("ASCII: " + Arrays.toString(ToASCII(stringToConvert)));
-
-        System.out.println("Base " + conversionBase + ": " + ToBase(conversionBase, ToASCII(stringToConvert)));
     }
 
     private static boolean IsStringValid(String stringToConvert) {
@@ -49,7 +51,7 @@ public class GlobalConverter {
         var asciiString = new int[stringToConvert.length()];
 
         for (int index = 0; index < stringToConvert.length(); index++) {
-            asciiString[index] = (int)stringToConvert.charAt(index);            
+            asciiString[index] = (int)stringToConvert.charAt(index);
         }
 
         return asciiString;
@@ -72,7 +74,7 @@ public class GlobalConverter {
             var convertedDigit = "";
 
             int quotient;
-            int dividend = asciiString[index];
+            int dividend = (int)asciiString[index];
             int remainder;
 
             //successive division until quotient is 0
@@ -104,4 +106,5 @@ public class GlobalConverter {
 
         return convertedString;
     }
+
 }
