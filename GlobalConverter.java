@@ -20,6 +20,8 @@ public class GlobalConverter {
             System.out.println("Invalid base.\nAvailable bases:\n -o octal\n -h hexadecimal\n -b binary\n -t text");
         }
 
+        System.out.println(toASCII(input));
+
     }
 
     private static void gatherInput(String[] args) {
@@ -47,6 +49,16 @@ public class GlobalConverter {
 
     private static boolean isValidInput(String input) {
         return input.matches("[A-Za-z0-9 ]+");
+    }
+
+    private static String toASCII(String input) {
+        String ascii = "";
+
+        for (char c : input.toCharArray()) {
+            ascii += ((int) c);
+        }
+
+        return ascii;
     }
 
 }
