@@ -1,30 +1,52 @@
 import java.util.Scanner;
 
 public class GlobalConverter {
+    static String input;
+    static String base;
+
     public static void main(String[] args) {
 
-        String input = "";
+        gatherInput(args);
 
-        if (args.length >= 1) {
-            // default input
-            input = args[0];
-        } else {
-            // manual input
-            System.out.println("Enter string to convert :");
-            Scanner sc = new Scanner(System.in);
-            input = sc.nextLine();
-            sc.close();
-        }
-
-        if (isValid(input)) {
-            System.out.println("Valid Input");
+        if (isValidInput(input)) {
+            System.out.println("Valid input");
         } else {
             System.out.println("Invalid input.\nMust be alphanumerical");
         }
 
+        if (isValidBase(base)) {
+            System.out.println("Valid base");
+        } else {
+            System.out.println("Invalid base.\nAvailable bases:\n -o octal\n -h hexadecimal\n -b binary\n -t text");
+        }
+
     }
 
-    private static boolean isValid(String input) {
-        return input.matches("[A-Za-z0-9]+");
+    private static void gatherInput(String[] args) {
+        if (args.length >= 2) {
+            // default input
+            input = args[1];
+            base = args[0];
+        } else {
+            // manual input
+            System.out.println("Enter string to convert:");
+            Scanner sc = new Scanner(System.in);
+            input = sc.nextLine();
+
+            System.out.println("Enter base:");
+            base = sc.nextLine();
+
+            sc.close();
+        }
+
     }
+
+    private static boolean isValidBase(String base) {
+        return base.matches("-[ohbt]");
+    }
+
+    private static boolean isValidInput(String input) {
+        return input.matches("[A-Za-z0-9 ]+");
+    }
+
 }
