@@ -49,10 +49,13 @@ public class GlobalConverter {
 
         for (char c : input.toCharArray()) {
             int ascii = (int) c;
-            int val = 0;
+            String val = "";
             if (base.equals("-d")) {
                 // decimal
-                val = ascii;
+                val = Integer.toString(ascii);
+            } else if (base.equals("-t")) {
+                System.out.println("Coming soon");
+
             } else {
                 // binary, octal and hexadecimal
                 switch (base) {
@@ -63,7 +66,7 @@ public class GlobalConverter {
                         b = 8;
                         break;
                     case "-h":
-                        b = 12;
+                        b = 16;
                         break;
                 }
                 val = toBase(ascii, b);
@@ -75,7 +78,20 @@ public class GlobalConverter {
 
     }
 
-    private static int toBase(int value, int b) {
-        return 0;
+    private static String toBase(int value, int b) {
+        if (value == 0)
+            return "0";
+
+        StringBuilder converted = new StringBuilder();
+
+        while (value != 0) {
+            int digit = value % b;
+            if (digit < 10)
+                converted.append(digit);
+            else // hex values from A to F
+                converted.append((char) ('A' + digit - 10));
+            value /= b;
+        }
+        return converted.reverse().toString();
     }
 }
