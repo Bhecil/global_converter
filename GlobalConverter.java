@@ -16,7 +16,15 @@ public class GlobalConverter {
             sc.close();
         }
 
-        System.out.println("Input: " + input);
+        if (isValid(input)) {
+            System.out.println("Valid Input");
+        } else {
+            System.out.println("Invalid input.\nMust be alphanumerical");
+        }
 
+    }
+
+    private static boolean isValid(String input) {
+        return input.matches("[A-Za-z0-9]+");
     }
 }
